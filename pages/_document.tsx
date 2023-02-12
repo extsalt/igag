@@ -12,7 +12,6 @@ export default function Document() {
           content="Memes, fun, talk, chat and much more."
         />
         <meta name="keywords" content="Memes, fun, talk, chat" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       <body>
         <Main />
