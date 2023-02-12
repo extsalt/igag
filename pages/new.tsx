@@ -12,10 +12,12 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { POST_STORE_URL } from '@/configs/apis';
+import { useRouter } from 'next/router';
 /**
  * Create post
  */
 export default function CreatePost() {
+  const router = useRouter();
   const [title, setTitle] = useState('');
   const [file, setFile] = useState(null);
 
@@ -36,18 +38,15 @@ export default function CreatePost() {
     };
 
     //TODO convert this fetch into service
-    fetch(POST_STORE_URL, {
+    await fetch(POST_STORE_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(request),
-    })
-      .then((response) => {
-        console.log(response.status);
-        return response.json();
-      })
-      .then((json) => console.log(json));
+    });
+
+    router.push('/');
   }
 
   return (
