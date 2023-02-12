@@ -33,17 +33,16 @@ export default function CreatePost() {
    * Create post
    */
   async function createPost() {
-    const request = {
-      title,
-    };
+    const formData = new FormData();
+    formData.append('title', title);
+    if (file) {
+      formData.append('file', file);
+    }
 
     //TODO convert this fetch into service
     await fetch(POST_STORE_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(request),
+      body: formData,
     });
 
     router.push('/');
