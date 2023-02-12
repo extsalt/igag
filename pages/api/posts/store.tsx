@@ -10,7 +10,6 @@ export default async function handle(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  console.log(request.body);
 
   const { title, imageUrl } = request.body;
 
