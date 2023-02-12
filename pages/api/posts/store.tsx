@@ -22,7 +22,6 @@ export default async function handle(
 ) {
   const options = {
     maxFiles: 1, // just one file,
-    uploadDir: './',
     keepExtensions: true,
     filter: function ({ name, originalFilename, mimetype }: any) {
       // keep only images
@@ -43,8 +42,7 @@ export default async function handle(
     const { title }: any = fields;
     const { file }: any = files;
 
-    const imagePath = './' + file.newFilename;
-
+    const imagePath = file.newFilename;
     cloudinary.config({
       cloud_name: 'dih1r5web',
       api_key: '417548972434439',
