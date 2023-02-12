@@ -43,7 +43,6 @@ export default async function handle(
     const { file }: any = files;
 
     const imagePath = file.newFilename;
-
     cloudinary.config({
       cloud_name: 'dih1r5web',
       api_key: '417548972434439',
