@@ -1,11 +1,21 @@
+import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-type Data = {
-  message: string
-}
-export default function handler(
+/**
+ * Get all post
+ *
+ * @param request
+ * @param response
+ */
+export default async function handler(
   request: NextApiRequest,
-  response: NextApiResponse<Data>,
-): void {
-  response.status(200).json({ message: 'hello world' });
+  response: NextApiResponse
+) {
+  const prismaClient = new PrismaClient({
+    log: ['query'],
+  });
+
+  const posts = await prismaClient.posts.findMany();
+
+  response.json(posts);
 }
