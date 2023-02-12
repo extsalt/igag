@@ -3,7 +3,7 @@ import { Inter } from '@next/font/google';
 import Layout from '@/components/layouts/layout';
 import { Container } from '@chakra-ui/react';
 import Post from '@/components/posts/post';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,11 +28,7 @@ export default function Home({ posts }: any) {
 }
 
 export async function getStaticProps() {
-  const primsaClient = new PrismaClient({
-    log: ['query'],
-  });
-
-  const posts = await primsaClient.posts.findMany();
+  const posts = await prisma.posts.findMany();
 
   return {
     props: {

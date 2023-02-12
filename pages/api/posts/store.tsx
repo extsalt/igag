@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/lib/prisma';
+import { prisma } from '@/lib/prisma';
 /**
  * Store post
  *
@@ -10,7 +10,6 @@ export default async function handle(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-
   const { title, imageUrl } = request.body;
 
   const post = await prisma.posts.create({
