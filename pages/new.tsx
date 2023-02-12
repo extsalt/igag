@@ -13,6 +13,7 @@ import {
 import { useState } from 'react';
 import { POST_STORE_URL } from '@/configs/apis';
 import { useRouter } from 'next/router';
+import { CLOUDINARY_GET_SIGNATURE } from '@/configs/apis';
 /**
  * Create post
  */
@@ -29,23 +30,51 @@ export default function CreatePost() {
     setFile(e.target.files[0]);
   }
 
+  async function getSignature() {
+    return fetch(CLOUDINARY_GET_SIGNATURE).then((response) => response.json());
+  }
+
   /**
    * Create post
    */
   async function createPost() {
-    const formData = new FormData();
-    formData.append('title', title);
-    if (file) {
-      formData.append('file', file);
+    if (file == null) {
+      alert('Choose file');
+      return;
     }
 
-    //TODO convert this fetch into service
-    await fetch(POST_STORE_URL, {
-      method: 'POST',
-      body: formData,
-    });
+    const { signature, timestamp, key } = await getSignature();
+    console.table({ signature, timestamp, key });
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('signature', signature);
+    formData.append('timestamp', timestamp);
+    formData.append('api_key', key);
+    //polyfill fetch
+    const response = await fetch(
+      'https://api.cloudinary.com/v1_1/dih1r5web/image/upload',
+      {
+        method: 'post',
+        body: formData,
+      }
+    ).then((response) => response.json());
 
-    router.push('/');
+    console.log(response);
+    if (response) {
+      const body = {
+        title,
+        imageUrl: response.secure_url,
+      };
+      await fetch(POST_STORE_URL, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      router.push('/');
+    }
   }
 
   return (
