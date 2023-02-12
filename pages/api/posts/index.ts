@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-
+import prisma from '@/lib/prisma';
 /**
  * Get all post
  *
@@ -8,14 +7,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
  * @param response
  */
 export default async function handler(
-  request: NextApiRequest,
+  _request: NextApiRequest,
   response: NextApiResponse
 ) {
-  const prismaClient = new PrismaClient({
-    log: ['query'],
-  });
-
-  const posts = await prismaClient.posts.findMany();
-
+  const posts = await prisma.posts.findMany();
   response.json(posts);
 }
