@@ -6,6 +6,7 @@ import Post from '@/components/posts/post';
 import { prisma } from '@/lib/prisma';
 import useSWR from 'swr';
 import redis from '@/lib/redis';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home({ posts }: any) {
