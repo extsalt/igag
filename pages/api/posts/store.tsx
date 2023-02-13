@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
+import redis from '@/lib/redis';
 /**
  * Store post
  *
@@ -21,6 +22,7 @@ export default async function handle(
     },
   });
 
+  await redis.del('posts');
   response.status(201).json({
     message: 'Post created',
   });
