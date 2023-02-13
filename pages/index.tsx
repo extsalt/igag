@@ -4,7 +4,6 @@ import Layout from '@/components/layouts/layout';
 import { Container } from '@chakra-ui/react';
 import Post from '@/components/posts/post';
 import { prisma } from '@/lib/prisma';
-import useSWR from 'swr';
 import redis from '@/lib/redis';
 
 const inter = Inter({ subsets: ['latin'] });
