@@ -23,6 +23,6 @@ export default async function handler(
     },
   });
 
-  await redis.set('posts', posts);
+  await redis.set('posts', JSON.stringify(posts));
   response.json(posts);
 }
