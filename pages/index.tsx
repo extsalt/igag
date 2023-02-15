@@ -1,8 +1,6 @@
 import { Inter } from '@next/font/google';
-
 import { Button } from '@chakra-ui/react';
 import Post from '@/components/posts/post';
-
 import useSWR from 'swr';
 import { POST_GET_URL } from '@/configs/apis';
 

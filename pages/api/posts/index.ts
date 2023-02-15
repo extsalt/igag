@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
 import redis from '@/lib/redis';
+
 /**
  * Get all post
  *
