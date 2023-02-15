@@ -12,17 +12,17 @@ export default async function handler(
   _request: NextApiRequest,
   response: NextApiResponse
 ) {
-  let posts = await redis.get('posts');
-  if (posts) {
-    return response.json(JSON.parse(posts));
-  }
+  // let posts = await redis.get('posts');
+  // if (posts) {
+  //   return response.json(JSON.parse(posts));
+  // }
 
-  posts = await prisma.posts.findMany({
+  const posts = await prisma.posts.findMany({
     orderBy: {
       createdAt: 'desc',
     },
   });
 
-  await redis.set('posts', JSON.stringify(posts));
-  response.json(posts);
+  // await redis.set('posts', JSON.stringify(posts));
+  response.json(JSON.parse(JSON.stringify(posts)));
 }
