@@ -1,13 +1,8 @@
-import { Inter } from '@next/font/google';
-import { Button, Skeleton, Stack } from '@chakra-ui/react';
+import { Button, Box, Container, Skeleton, Stack } from '@chakra-ui/react';
 import Post from '@/components/posts/post';
-import useSWR from 'swr';
-import { POST_GET_URL } from '@/configs/apis';
-
-const inter = Inter({ subsets: ['latin'] });
-
+import usePost from '@/lib/effects/post';
 export default function Home() {
-  const { data, error, isLoading } = useSWR(POST_GET_URL, fetcher);
+  const { posts, error, isLoading } = usePost();
 
   if (error) return <div>failed to load</div>;
   if (isLoading)
@@ -19,7 +14,16 @@ export default function Home() {
       </Stack>
     );
 
-  return data.map((post: any) => <Post post={post} key={post.id} />);
-}
+  return (
+    <Container as="main" maxW="lg">
+      <Button>Call Effect</Button>
+      {posts.map((post: any) => (
+        <Post post={post} key={post.id} />
+      ))}
 
-const fetcher = (args: string) => fetch(args).then((res) => res.json());
+      <Box>
+        <p>Loading more...</p>
+      </Box>
+    </Container>
+  );
+}
