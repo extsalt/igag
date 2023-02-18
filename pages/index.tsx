@@ -1,7 +1,14 @@
 import React, { useState, useRef, useCallback } from 'react';
 import usePosts from '@/lib/effects/posts';
 import Post from '@/components/posts/post';
-import { Box, Container, SkeletonCircle, SkeletonText } from '@chakra-ui/react';
+
+import {
+  Box,
+  CircularProgress,
+  Container,
+  SkeletonCircle,
+  SkeletonText,
+} from '@chakra-ui/react';
 
 type Post = {
   id: any;
@@ -81,11 +88,11 @@ export default function Home() {
         if (posts.length === index + 1) {
           return (
             <div
-              key={post.id + index}
+              key={post.id}
               ref={lastBookElementRef}
               style={{ display: 'flex', justifyContent: 'center' }}
             >
-              Loading more...
+              <CircularProgress isIndeterminate value={80} py="4" />
             </div>
           );
         } else {

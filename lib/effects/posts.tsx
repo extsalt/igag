@@ -7,8 +7,6 @@ export default function usePosts(page: number) {
   const [error, setError] = useState(false);
   const [posts, setPosts] = useState([]);
 
-  console.log('page' + page);
-
   useEffect(() => {
     setLoading(true);
     setError(false);
