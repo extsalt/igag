@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import usePosts from '@/lib/effects/posts';
 import Post from '@/components/posts/post';
+
 import {
   Box,
   CircularProgress,
