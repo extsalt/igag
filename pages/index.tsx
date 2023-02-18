@@ -1,53 +1,97 @@
-import { Skeleton, Stack } from '@chakra-ui/react';
-import { POST_GET_URL } from '@/configs/apis';
-import useSWRInfinite from 'swr/infinite';
-import { useEffect, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
+import usePosts from '@/lib/effects/posts';
 import Post from '@/components/posts/post';
+import { Box, Container, SkeletonCircle, SkeletonText } from '@chakra-ui/react';
 
-const options = {
-  initialSize: 1,
-  revalidateAll: false,
+type Post = {
+  id: any;
 };
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
-
-const getKey = (_pageIndex: any, _previousPageData: any) => {
-  return POST_GET_URL;
-};
+type Posts = Post[];
 
 export default function Home() {
-  const { data, size, setSize } = useSWRInfinite(getKey, fetcher, options);
-  const sentinel: any = useRef();
+  const [query, setQuery] = useState('');
+  const [page, setPageNumber] = useState(1);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          console.log('Oh my bottom');
+  const { posts, loading } = usePosts(page);
+
+  function handleSearch(e: {
+    target: { value: React.SetStateAction<string> };
+  }) {
+    setQuery(e.target.value);
+    setPageNumber(1);
+  }
+  const observer = useRef<IntersectionObserver>();
+  const lastBookElementRef = useCallback(
+    (node: any) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
         }
       });
-    });
-
-    observer.observe(sentinel.current);
-  }, []);
+      if (node) observer.current.observe(node);
+    },
+    [loading]
+  );
 
   return (
-    <>
-      <div>{getPost(data)}</div>
-      <div ref={sentinel} style={{ marginTop: '30px' }}>
-        sentinel
-      </div>
-    </>
+    <Container maxW="lg" as="main">
+      {loading && (
+        <>
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+
+          <Box padding="6" boxShadow="lg" bg="white">
+            <SkeletonCircle size="10" />
+            <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
+          </Box>
+        </>
+      )}
+
+      {posts.map((post: Post, index: number) => {
+        if (posts.length === index + 1) {
+          return (
+            <div
+              key={post.id + index}
+              ref={lastBookElementRef}
+              style={{ display: 'flex', justifyContent: 'center' }}
+            >
+              Loading more...
+            </div>
+          );
+        } else {
+          return <Post key={post.id} post={post} />;
+        }
+      })}
+    </Container>
   );
-}
-
-function getPost(posts: any[] | undefined): JSX.Element {
-  if (posts) {
-    const pagePost = posts[0];
-    return pagePost.map(function (post: any) {
-      return <Post key={post.id} post={post} />;
-    });
-  }
-
-  return <></>;
 }
