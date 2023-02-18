@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="preload" href="/api" as="fetch"></link>
+        <link rel="preload" href="/" as="fetch"></link>
         <meta charSet="UTF-8" />
         <meta
           name="description"

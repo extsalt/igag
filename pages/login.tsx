@@ -4,6 +4,7 @@ import {
   Card,
   CardBody,
   Container,
+  Flex,
   HStack,
   Heading,
   Input,
@@ -12,9 +13,13 @@ import {
 } from '@chakra-ui/react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import Link from 'next/link';
-import Image from 'next/image';
+import { useEffect, useRef } from 'react';
 // Send magic link or login with email
 export default function Login() {
+  const inputFieldRef = useRef();
+
+  useEffect(() => inputFieldRef.current.focus(), [inputFieldRef]);
+
   return (
     <>
       <Container maxW="lg" as="main" py="4">
@@ -22,9 +27,9 @@ export default function Login() {
           <CardBody>
             {/* Heading */}
             <Box my="4">
-              <VStack>
-                <Image src="/igag.png" height="96" width="96" alt="IGAG logo" />
-              </VStack>
+              <Flex justifyContent="center">
+                <Heading>Login</Heading>
+              </Flex>
             </Box>
             {/* Heading */}
             <Box py="4" my="4">
@@ -32,7 +37,7 @@ export default function Login() {
                 <Input
                   type="email"
                   placeholder="Email address"
-                  autoFocus={true}
+                  ref={inputFieldRef}
                 />
                 <Button colorScheme="red" color="whiteAlpha.900">
                   Send Login Link

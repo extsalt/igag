@@ -4,6 +4,7 @@ import {
   ButtonGroup,
   Container,
   Flex,
+  Heading,
   HStack,
   useBreakpointValue,
 } from '@chakra-ui/react';
@@ -31,7 +32,7 @@ export default function Layout({ children }: any) {
                   </HStack>
                 </Flex>
               ) : (
-                <Button variant="ghost">Sign in</Button>
+                <Heading>IGAG</Heading>
               )}
             </HStack>
           </Container>
