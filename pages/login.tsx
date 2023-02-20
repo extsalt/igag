@@ -13,12 +13,13 @@ import {
 } from '@chakra-ui/react';
 import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import Link from 'next/link';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useRef } from 'react';
 // Send magic link or login with email
 export default function Login() {
-  const inputFieldRef = useRef();
+  const inputFieldRef = useRef<HTMLInputElement>();
 
-  useEffect(() => inputFieldRef.current.focus(), [inputFieldRef]);
+  useEffect(() => inputFieldRef.current?.focus(), [inputFieldRef]);
 
   return (
     <>
@@ -39,7 +40,11 @@ export default function Login() {
                   placeholder="Email address"
                   ref={inputFieldRef}
                 />
-                <Button colorScheme="red" color="whiteAlpha.900">
+                <Button
+                  colorScheme="red"
+                  color="whiteAlpha.900"
+                  onClick={() => signIn()}
+                >
                   Send Login Link
                 </Button>
               </VStack>
