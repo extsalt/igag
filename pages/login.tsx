@@ -15,11 +15,13 @@ import { FaFacebook, FaGoogle } from 'react-icons/fa';
 import Link from 'next/link';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useEffect, useRef } from 'react';
-// Send magic link or login with email
+
 export default function Login() {
   const inputFieldRef = useRef<HTMLInputElement>();
 
   useEffect(() => inputFieldRef.current?.focus(), [inputFieldRef]);
+
+  const { data, status } = useSession();
 
   return (
     <>
@@ -30,6 +32,7 @@ export default function Login() {
             <Box my="4">
               <Flex justifyContent="center">
                 <Heading>Login</Heading>
+                <Text>{data?.user?.name}</Text>
               </Flex>
             </Box>
             {/* Heading */}
