@@ -1,6 +1,8 @@
 import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
+import { OAUTH_SIGN_IN_REDIRECT_URL } from '@/configs/urls';
+
 export const authOptions = {
   providers: [
     GithubProvider({
@@ -12,5 +14,10 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
   ],
+  callbacks: {
+    async redirect({ url, baseUrl }: any) {
+      return OAUTH_SIGN_IN_REDIRECT_URL;
+    },
+  },
 };
 export default NextAuth(authOptions);

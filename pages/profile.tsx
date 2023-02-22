@@ -1,3 +1,11 @@
+import { signOut } from 'next-auth/react';
+
 export default function Profile() {
-  return <>User Profile Page</>;
+  return (
+    <>
+      <p>
+        <button onClick={() => signOut()}>Logout</button>
+      </p>
+    </>
+  );
 }
