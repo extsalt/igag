@@ -90,23 +90,19 @@ export default function Layout({ children }: any) {
                     role="menu"
                     aria-orientation="vertical"
                     aria-labelledby="user-menu-button"
-                    tabindex="-1"
                   >
                     <a
                       href="#"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
-                      tabindex="-1"
                       id="user-menu-item-0"
                     >
                       Your Profile
                     </a>
-
                     <a
                       href="#"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
-                      tabindex="-1"
                       id="user-menu-item-1"
                     >
                       Settings
@@ -116,7 +112,6 @@ export default function Layout({ children }: any) {
                       href="#"
                       className="block px-4 py-2 text-sm text-gray-700"
                       role="menuitem"
-                      tabindex="-1"
                       id="user-menu-item-2"
                     >
                       Sign out
@@ -174,11 +169,7 @@ export default function Layout({ children }: any) {
 
       <main>
         <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <div className="h-96 rounded-lg border-4 border-dashed border-gray-200">
-              {children}
-            </div>
-          </div>
+          <div className="h-96 rounded-lg">{children}</div>
         </div>
       </main>
     </div>

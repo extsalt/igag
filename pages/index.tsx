@@ -38,7 +38,13 @@ export default function Home() {
 
   return (
     <>
-      <Layout>hello</Layout>
+      <Layout>
+        <div className="post-container max-w-lg mx-auto">
+          {posts.map((post: Post): any => (
+            <Post post={post} key={post.id} />
+          ))}
+        </div>
+      </Layout>
     </>
   );
 }
