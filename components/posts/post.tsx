@@ -1,3 +1,5 @@
+import EllipsisVertical from '../icons/ellipsis-vertical';
+
 export default function Post({ post }: any) {
   return (
     <>
@@ -23,7 +25,11 @@ export default function Post({ post }: any) {
           {/* left side */}
 
           {/* right side */}
-          <div className="p-4">...</div>
+          <div className="p-4">
+            <button>
+              <EllipsisVertical />
+            </button>
+          </div>
           {/* right side */}
         </div>
         {/* post header */}
