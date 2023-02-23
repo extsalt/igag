@@ -9,7 +9,7 @@ export default function Login() {
         </div>
 
         <div className="my-4 flex justify-center space-x-4">
-          <button onClick={() => signIn('google')}>
+          <button className="" onClick={() => signIn('google')}>
             <Image
               src="/google.svg"
               alt="Login with google"
@@ -25,6 +25,24 @@ export default function Login() {
               height={24}
             />
           </button>
+
+          <button onClick={() => signIn('github')}>
+            <Image
+              src="/github.svg"
+              alt="Login with github"
+              width={24}
+              height={24}
+            />
+          </button>
+
+          <button onClick={() => signIn('facebook')}>
+            <Image
+              src="/facebook.svg"
+              alt="Login with facebook"
+              width={24}
+              height={24}
+            />
+          </button>
         </div>
 
         <div className="form-control my-4">
@@ -34,7 +52,7 @@ export default function Login() {
             </label>
             <input
               className="border-2 border-blue-300 px-2 py-1 rounded-sm"
-              type="text"
+              type="email"
               id="email"
               placeholder="Email"
             />
