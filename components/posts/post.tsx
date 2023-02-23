@@ -16,9 +16,7 @@ export default function Post({ post }: any) {
               />
             </div>
             <div>
-              <div className="text-xl font-medium text-black">
-                CybedafsdfasdfasdrPunk
-              </div>
+              <div className="text-lg font-medium">Cyberpunk</div>
               <p className="text-slate-500">2 days ago</p>
             </div>
           </div>
