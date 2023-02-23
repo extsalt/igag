@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import usePosts from '@/lib/effects/posts';
 import Post from '@/components/posts/post';
+import Layout from '@/components/layouts/layout';
 
 type Post = {
   id: any;
@@ -37,7 +38,13 @@ export default function Home() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-red-500">Hello world!</h1>
+      <Layout>
+        <div className="post-container max-w-lg mx-auto">
+          {posts.map((post: Post): any => (
+            <Post post={post} key={post.id} />
+          ))}
+        </div>
+      </Layout>
     </>
   );
 }
