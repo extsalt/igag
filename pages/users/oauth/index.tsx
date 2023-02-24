@@ -8,7 +8,7 @@ export default function OauthUser() {
       <p>User {data?.user?.name}</p>
       <p>User {data?.user?.email}</p>
 
-      <img src={data?.user?.image || ''} />
+      <img src={data?.user?.image || ''} referrerPolicy="no-referrer" />
     </>
   );
 }
