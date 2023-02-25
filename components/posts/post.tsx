@@ -1,5 +1,4 @@
 import EllipsisVertical from '../icons/ellipsis-vertical';
-
 export default function Post({ post }: any) {
   return (
     <>
@@ -38,6 +37,8 @@ export default function Post({ post }: any) {
             className="h-post-image-height min-w-full object-cover object-center rounded-sm"
             src={post.imageUrl}
             alt={post.title}
+            loading="lazy"
+            decoding="async"
           />
         </div>
         {/* post body */}
