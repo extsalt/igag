@@ -3,27 +3,27 @@ import EllipsisVertical from '../icons/ellipsis-vertical';
 export default function Post({ post }: any) {
   return (
     <>
-      <div className="my-2">
+      <div className="my-2 min-w-full">
         {/* post header */}
-        <div className="flex justify-between flex-1 border">
+        <div className="flex justify-between flex-1 border rounded-sm">
           {/* left side */}
-          <div className="p-2 bg-white flex items-center space-x-4 ">
-            <div className="">
+          <div className="p-2 bg-white flex items-center space-x-4">
+            <div className="object-center">
               <img
-                className="h-12 w-12 rounded-full"
+                className="h-12 w-12 rounded-full object-contain"
                 src={post.imageUrl}
                 alt={post.title}
               />
             </div>
             <div>
               <div className="text-lg font-medium">Cyberpunk</div>
-              <p className="text-slate-500">2 days ago</p>
+              <p className="text-slate-500 text-sm">2 days ago</p>
             </div>
           </div>
           {/* left side */}
 
           {/* right side */}
-          <div className="p-4">
+          <div className=" px-4 flex justify-center">
             <button>
               <EllipsisVertical />
             </button>
@@ -33,8 +33,12 @@ export default function Post({ post }: any) {
         {/* post header */}
 
         {/* post body */}
-        <div className="text-center">
-          <img className="object-fill" src={post.imageUrl} alt={post.title} />
+        <div className="post-media-container">
+          <img
+            className="h-post-image-height min-w-full object-cover object-center rounded-sm"
+            src={post.imageUrl}
+            alt={post.title}
+          />
         </div>
         {/* post body */}
 
