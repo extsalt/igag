@@ -116,7 +116,7 @@ export default function Login() {
       <div className="max-w-sm mx-auto my-6">
         <div className="flex justify-center space-x-2">
           <span>Already have an account? </span>
-          <Link href="/register" className="text-blue-600">
+          <Link href="/login" className="text-blue-600">
             Login?
           </Link>
         </div>
