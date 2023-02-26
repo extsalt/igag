@@ -51,7 +51,7 @@ export default function OauthUser({ session }: any) {
               <div className="flex space-x-6 items-center">
                 <img
                   className="rounded-sm"
-                  src={data?.user?.image || ''}
+                  src={session?.user?.image || ''}
                   referrerPolicy="no-referrer"
                   width={96}
                   height={96}
