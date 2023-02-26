@@ -1,7 +1,23 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-export default function OauthUser() {
-  const { data } = useSession();
+import { useState } from 'react';
+import { USER_CREATE_URL } from '@/configs/urls';
+import { getServerSession, Session } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+export default function OauthUser({ session }: any) {
+  const [username, setUsername] = useState();
+
+  async function createAccount() {
+    const response = await fetch(USER_CREATE_URL, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username }),
+    }).then((response: Response) => response.json());
+
+    console.log(response);
+  }
 
   return (
     <>
@@ -21,8 +37,8 @@ export default function OauthUser() {
                 <input
                   className="border-2 border-gray-300 px-2 py-1 rounded-sm"
                   type="text"
-                  value={data?.user?.name || ''}
                   id="username"
+                  onChange={(e: any) => setUsername(e.target.value)}
                 />
 
                 <button className=" px-4 py-2 bg-gray-600 text-white rounded-sm">
@@ -47,7 +63,10 @@ export default function OauthUser() {
             </div>
 
             <div className="my-4 flex justify-center">
-              <button className="px-6 py-2 bg-blue-600 min-w-full text-white rounded-sm">
+              <button
+                className="px-6 py-2 bg-blue-600 min-w-full text-white rounded-sm"
+                onClick={() => createAccount()}
+              >
                 Create my account
               </button>
             </div>
@@ -72,4 +91,24 @@ export default function OauthUser() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context: any) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+  console.log(session);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
 }
