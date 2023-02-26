@@ -12,15 +12,13 @@ export default function Login() {
    * Create user's account
    */
   async function createAccount() {
-    const response = await fetch(USER_CREATE_URL, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, email, password }),
-    }).then((response) => response.json());
-
-    console.log(response);
+    signIn('credentials', {
+      redirect: true,
+      email,
+      password,
+      username,
+      callbackUrl: '/',
+    });
   }
 
   return (
