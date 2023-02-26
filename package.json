@@ -1,9 +1,9 @@
 {
   "name": "igag.in",
-  "version": "0.1.0",
+  "version": "0.2.alpha",
   "private": true,
   "scripts": {
-    "predev": "prisma migrate dev",
+    "predev": "prisma generate && prisma migrate dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
