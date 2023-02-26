@@ -1,7 +1,28 @@
+import { USER_CREATE_URL } from '@/configs/urls';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 export default function Login() {
+  const [username, setUsername] = useState<String>();
+  const [email, setEmail] = useState<String>();
+  const [password, setPassword] = useState<String>();
+
+  /**
+   * Create user's account
+   */
+  async function createAccount() {
+    const response = await fetch(USER_CREATE_URL, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password }),
+    }).then((response) => response.json());
+
+    console.log(response);
+  }
+
   return (
     <div className="bg-gray-200 min-w-full min-h-screen py-10">
       <div className="login-container h-96 border-1 border-red-50 p-4 bg-white max-w-sm mx-auto rounded-md shadow-md">
@@ -55,6 +76,7 @@ export default function Login() {
               className="border-2 border-gray-300 px-2 py-1 rounded-sm"
               type="text"
               id="username"
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
@@ -66,6 +88,7 @@ export default function Login() {
               className="border-2 border-gray-300 px-2 py-1 rounded-sm"
               type="email"
               id="email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -79,10 +102,14 @@ export default function Login() {
               className="border-2 border-gray-300 px-2 py-1 rounded-sm"
               type="password"
               id="password"
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="my-4 flex justify-center">
-            <button className="px-6 py-2 bg-blue-600 min-w-full text-white rounded-sm">
+            <button
+              className="px-6 py-2 bg-blue-600 min-w-full text-white rounded-sm"
+              onClick={() => createAccount()}
+            >
               Create my account
             </button>
           </div>
