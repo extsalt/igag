@@ -5,7 +5,7 @@ import redis from '@/lib/redis';
 /**
  * Get all post
  *
- * @param request
+ * @param _request
  * @param response
  */
 export default async function handler(
