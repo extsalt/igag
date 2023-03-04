@@ -14,9 +14,6 @@ export default async function handler(
   response: NextApiResponse
 ) {
   const { username, email, password } = request.body;
-  // TODO make sure all fields are validated.
-  console.log(username, email, password);
-
   const user = await prisma.users.create({
     data: {
       username,

@@ -64,7 +64,6 @@ export const authOptions = {
   ],
   callbacks: {
     async redirect({ url, baseUrl }: any) {
-      console.log(url, baseUrl);
       return OAUTH_SIGN_IN_REDIRECT_URL;
     },
   },
