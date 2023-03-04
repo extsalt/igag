@@ -1,19 +1,7 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Container,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  VStack,
-} from '@chakra-ui/react';
 import { useState } from 'react';
-import { POST_STORE_URL } from '@/configs/apis';
+import { CLOUDINARY_GET_SIGNATURE, POST_STORE_URL } from '@/configs/apis';
 import { useRouter } from 'next/router';
-import { CLOUDINARY_GET_SIGNATURE } from '@/configs/apis';
+
 /**
  * Create post
  */
@@ -56,7 +44,7 @@ export default function CreatePost() {
       {
         method: 'post',
         body: formData,
-      }
+      },
     ).then((response) => response.json());
 
     console.log(response);
@@ -78,42 +66,40 @@ export default function CreatePost() {
   }
 
   return (
-    <Container as="main" maxW="lg">
-      <Card>
-        <CardHeader>
-          <Heading>Create Post</Heading>
-        </CardHeader>
+    <div>
+      <div>
+        <div>
+          <div>Create Post</div>
+        </div>
 
-        <CardBody>
-          <FormControl>
-            <VStack align="initial">
-              <FormLabel>Title of post</FormLabel>
-              <Input
-                type="text"
-                placeholder="Title"
+        <div>
+          <div>
+            <div>
+              <div>Title of post</div>
+              <input
+                type='text'
+                placeholder='Title'
                 autoFocus={true}
                 onChange={handleTitleChange}
               />
 
-              <FormLabel>Choose file</FormLabel>
-              <Input
-                type="file"
-                placeholder="Choose file"
-                accept="image/*"
+              <div>Choose file</div>
+              <input
+                type='file'
+                placeholder='Choose file'
+                accept='image/*'
                 onChange={handleFileChange}
               />
 
-              <Button
-                colorScheme="yellow"
+              <button
                 onClick={() => createPost()}
-                fontWeight="extrabold"
               >
                 Post
-              </Button>
-            </VStack>
-          </FormControl>
-        </CardBody>
-      </Card>
-    </Container>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
