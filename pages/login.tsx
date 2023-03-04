@@ -19,14 +19,14 @@ export default function Login() {
               height={24}
             />
           </button>
-          <button onClick={() => signIn('twitter')}>
-            <Image
-              src='/twitter.svg'
-              alt='Login with twitter'
-              width={24}
-              height={24}
-            />
-          </button>
+          {/*<button onClick={() => signIn('twitter')}>*/}
+          {/*  <Image*/}
+          {/*    src='/twitter.svg'*/}
+          {/*    alt='Login with twitter'*/}
+          {/*    width={24}*/}
+          {/*    height={24}*/}
+          {/*  />*/}
+          {/*</button>*/}
 
           <button onClick={() => signIn('github')}>
             <Image
@@ -37,14 +37,14 @@ export default function Login() {
             />
           </button>
 
-          <button onClick={() => signIn('facebook')}>
-            <Image
-              src='/facebook.svg'
-              alt='Login with facebook'
-              width={24}
-              height={24}
-            />
-          </button>
+          {/*<button onClick={() => signIn('facebook')}>*/}
+          {/*  <Image*/}
+          {/*    src='/facebook.svg'*/}
+          {/*    alt='Login with facebook'*/}
+          {/*    width={24}*/}
+          {/*    height={24}*/}
+          {/*  />*/}
+          {/*</button>*/}
         </div>
 
         <div className='form-control my-4'>
