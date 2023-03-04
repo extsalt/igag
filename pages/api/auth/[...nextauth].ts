@@ -2,7 +2,6 @@ import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { OAUTH_SIGN_IN_REDIRECT_URL } from '@/configs/urls';
 import { prisma } from '@/lib/prisma';
 import _ from 'lodash';
 
@@ -42,7 +41,13 @@ export const authOptions = {
         const existingUser = await prisma.users.findFirst({ where: { username, email } });
 
         if (existingUser) {
-          return null;
+          return {
+            id: String(existingUser.id),
+            name: existingUser.username,
+            image: existingUser.image,
+            email: existingUser.email,
+            username: existingUser.username,
+          };
         }
 
         const image = 'https://seccdn.libravatar.org/avatar/' + crypto.createHash('md5', email?.toLocaleUpperCase()).digest('hex');
@@ -53,6 +58,7 @@ export const authOptions = {
           return {
             id: String(user.id),
             name: username,
+            username,
             image,
             email,
           };
@@ -62,10 +68,5 @@ export const authOptions = {
       },
     }),
   ],
-  callbacks: {
-    async redirect({ url, baseUrl }: any) {
-      return OAUTH_SIGN_IN_REDIRECT_URL;
-    },
-  },
 };
 export default NextAuth(authOptions);
