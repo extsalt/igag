@@ -25,7 +25,7 @@ export default async function handler(request: NextApiRequest, response: NextApi
 
   await prisma.users.update({
     where: { id: user.id },
-    data: { image },
+    data: { image, updatedAt: new Date() },
   });
 
   response.json({
