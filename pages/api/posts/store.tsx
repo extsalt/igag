@@ -1,6 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
-import redis from '@/lib/redis';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+
+const slug = require('slug');
 /**
  * Store post
  *
@@ -9,20 +12,37 @@ import redis from '@/lib/redis';
  */
 export default async function handle(
   request: NextApiRequest,
-  response: NextApiResponse
+  response: NextApiResponse,
 ) {
+  const session = await getServerSession(request, response, authOptions);
+
+  if (!session) {
+    response.status(401).json({ message: 'You must be logged in.' });
+    return;
+  }
+
+  const user = await prisma.users.findFirst({
+    // @ts-ignore
+    where: { email: session.user.email },
+  });
+
+  if (!user) {
+    response.status(401).json({ message: 'You must be logged in.' });
+    return;
+  }
+
   const { title, imageUrl } = request.body;
 
   const post = await prisma.posts.create({
     data: {
       title,
-      slug: title,
-      userId: 1,
+      slug: slug(title),
+      // @ts-ignore
+      userId: user.id,
       imageUrl,
     },
   });
 
-  await redis.del('posts');
   response.status(201).json({
     message: 'Post created',
   });

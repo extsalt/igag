@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { CLOUDINARY_GET_SIGNATURE, POST_STORE_URL } from '@/configs/apis';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 
 /**
  * Create post
  */
 export default function CreatePost() {
+  const { data, status } = useSession();
+
   const router = useRouter();
   const [title, setTitle] = useState('');
   const [file, setFile] = useState(null);
@@ -66,8 +69,11 @@ export default function CreatePost() {
   }
 
   return (
-    <div>
-      <div>
+
+
+    <div className='bg-gray-200 min-w-full min-h-screen py-10'>
+      <div className='login-container h-96 border-1 border-red-50 p-4 bg-white max-w-sm mx-auto rounded-md shadow-md'>
+
         <div>
           <div>Create Post</div>
         </div>
