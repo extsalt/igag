@@ -1,25 +1,29 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
-import redis from '@/lib/redis';
 
-/**
- * Get all post
- *
- * @param _request
- * @param response
- */
 export default async function handler(
   _request: NextApiRequest,
-  response: NextApiResponse
+  response: NextApiResponse,
 ) {
-  // let posts = await redis.get('posts');
-  // if (posts) {
-  //   return response.json(JSON.parse(posts));
+
+  // let cachedPosts = await redis.get('posts');
+  // if (cache) {
+  //   response.json(JSON.parse(cachedPosts));
+  //   return;
   // }
 
   const posts = await prisma.posts.findMany({
     orderBy: {
       createdAt: 'desc',
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+          image: true,
+        },
+      },
     },
   });
 

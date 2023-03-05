@@ -1,6 +1,11 @@
 import EllipsisVertical from '../icons/ellipsis-vertical';
+const dayjs = require('dayjs');
+const relativeTime = require('dayjs/plugin/relativeTime');
 
 export default function Post({ post }: any) {
+  dayjs.extend(relativeTime)
+  const humanReadableDiff = dayjs(post.createdAt);
+
   return (
     <>
       <div className='my-2 min-w-full'>
@@ -11,13 +16,13 @@ export default function Post({ post }: any) {
             <div className='object-center'>
               <img
                 className='h-12 w-12 rounded-full object-contain'
-                src={post.imageUrl}
+                src={post.user.image}
                 alt={post.title}
               />
             </div>
             <div>
-              <div className='text-lg font-medium'>Cyberpunk</div>
-              <p className='text-slate-500 text-sm'>2 days ago</p>
+              <div className='text-lg font-medium'>{post.user.username || 'user' + post.user.id}</div>
+              <p className='text-slate-500 text-sm'>{humanReadableDiff.fromNow()}</p>
             </div>
           </div>
           {/* left side */}
@@ -52,7 +57,7 @@ export default function Post({ post }: any) {
         </div>
         {/* post body */}
 
-        
+
         {/* post footer */}
         <div></div>
         {/* post footer */}
