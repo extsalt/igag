@@ -4,7 +4,6 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="preload" href="/" as="fetch"></link>
         <meta charSet="UTF-8" />
@@ -13,6 +12,7 @@ export default function Document() {
           content="Memes, fun, talk, chat and much more."
         />
         <meta name="keywords" content="Memes, fun, talk, chat" />
+        <title>IGAG</title>
       </Head>
       <body>
         <Main />

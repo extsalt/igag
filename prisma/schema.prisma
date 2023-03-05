@@ -8,8 +8,8 @@ datasource db {
 }
 
 model users {
-  id               Int        @unique @default(autoincrement())
-  username         String     @unique
+  id               Int        @id @unique @default(autoincrement())
+  username         String?
   email            String
   password         String?
   image            String?
@@ -24,7 +24,7 @@ model users {
 }
 
 model posts {
-  id                Int        @unique @default(autoincrement())
+  id                Int        @id @unique @default(autoincrement())
   user              users      @relation(fields: [userId], references: [id])
   userId            Int
   slug              String
@@ -44,7 +44,7 @@ model posts {
 }
 
 model comments {
-  id        Int       @unique @default(autoincrement())
+  id        Int       @id @unique @default(autoincrement())
   userId    Int
   postId    Int
   body      String
@@ -59,7 +59,7 @@ model comments {
 }
 
 model tags {
-  id        Int       @unique @default(autoincrement())
+  id        Int       @id @unique @default(autoincrement())
   slug      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime?
