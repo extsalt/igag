@@ -43,6 +43,15 @@ export default async function handle(
     },
   });
 
+  await prisma.users.update({
+    data: {
+      noOfPostsCreated: ++user.noOfPostsCreated,
+    },
+    where: {
+      id: user.id,
+    },
+  });
+
   response.status(201).json({
     message: 'Post created',
   });
