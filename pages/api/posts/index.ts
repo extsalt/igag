@@ -1,16 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
+import redis from '@/lib/redis';
 
 export default async function handler(
   _request: NextApiRequest,
   response: NextApiResponse,
 ) {
 
-  // let cachedPosts = await redis.get('posts');
-  // if (cache) {
-  //   response.json(JSON.parse(cachedPosts));
-  //   return;
-  // }
+  let cachedPosts = await redis.get('posts');
+  if (cachedPosts) {
+    response.json(JSON.parse(cachedPosts));
+    return;
+  }
 
   const posts = await prisma.posts.findMany({
     orderBy: {
@@ -27,6 +28,9 @@ export default async function handler(
     },
   });
 
-  // await redis.set('posts', JSON.stringify(posts));
-  response.json(JSON.parse(JSON.stringify(posts)));
+  const stringifyPosts = JSON.stringify(posts);
+
+  await redis.set('posts', stringifyPosts);
+
+  response.json(JSON.parse(stringifyPosts));
 }
