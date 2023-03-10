@@ -36,11 +36,12 @@ model posts {
   postedAnonymously Boolean    @default(false)
   isNSFW            Boolean    @default(false)
   isReported        Boolean    @default(false)
-  hasComments       Boolean    @default(false)
+  commentsCount     Int        @default(0)
   createdAt         DateTime   @default(now())
   updatedAt         DateTime?
   deletedAt         DateTime?
   comments          comments[]
+  @@index([id, userId, likes, dislikes, commentsCount])
 }
 
 model comments {

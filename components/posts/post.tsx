@@ -1,9 +1,13 @@
 import EllipsisVertical from '../icons/ellipsis-vertical';
+import ArrowUp from '@/components/icons/ArrowUp';
+import ArrowDown from '@/components/icons/ArrowDown';
+import ChatBubble from '@/components/icons/ChatBubble';
+
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
 
 export default function Post({ post }: any) {
-  dayjs.extend(relativeTime)
+  dayjs.extend(relativeTime);
   const humanReadableDiff = dayjs(post.createdAt);
 
   return (
@@ -59,7 +63,13 @@ export default function Post({ post }: any) {
 
 
         {/* post footer */}
-        <div></div>
+        <div className='flex space-x-4'>
+          <button className='bg-gray-100 px-2 py-1 rounded-sm'><ArrowUp />{post.likes}</button>
+
+          <button className='bg-gray-100 px-2 py-1 rounded-sm'><ArrowDown />{post.dislikes}</button>
+
+          <button className='bg-gray-100 px-2 py-1 rounded-sm'><ChatBubble />{post.commentsCount}</button>
+        </div>
         {/* post footer */}
 
 
