@@ -30,9 +30,18 @@ export async function getServerSideProps(context: any) {
         identityProvider = 'github';
       }
 
-      await prisma.users.create({
+      const user = await prisma.users.create({
         // @ts-ignore
         data: { email: session?.user?.email, identityProvider, image: createUserAvatar(session.user.email) },
+      });
+
+      await prisma.users.update({
+        data: {
+          username: 'username' + user.id,
+        },
+        where: {
+          id: user.id,
+        },
       });
     }
 

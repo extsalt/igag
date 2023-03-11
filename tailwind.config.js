@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme')
 module.exports = {
   content: [
     './app/**/*.{js,ts,jsx,tsx}',
@@ -10,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      },
       spacing: {
         'post-image-height': '32rem',
       },

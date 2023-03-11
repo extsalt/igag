@@ -69,8 +69,6 @@ export default function CreatePost() {
   }
 
   return (
-
-
     <div className='bg-gray-200 min-w-full min-h-screen py-10'>
       <div className='login-container h-96 border-1 border-red-50 p-4 bg-white max-w-sm mx-auto rounded-md shadow-md'>
 

@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/prisma';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import redis from '@/lib/redis';
 
 const slug = require('slug');
 /**
@@ -51,6 +52,8 @@ export default async function handle(
       id: user.id,
     },
   });
+
+  await redis.del('posts');
 
   response.status(201).json({
     message: 'Post created',
