@@ -18,22 +18,21 @@ export default async function handle(
     return;
   }
 
-  let post = await redis.get('post:' + validatedRequest.id);
+  let cachedPost = await redis.get('post:' + validatedRequest.id);
 
-  if (post) {
-    response.json(JSON.parse(post));
+  if (cachedPost) {
+    response.json(JSON.parse(cachedPost));
     return;
   }
 
-  post = await prisma.posts.findFirst({
+  const post = await prisma.posts.findUnique({
       where: { id: validatedRequest.id }, include:
         {
           user: {
             select: {
               id: true,
               username: true,
-              image:
-                true,
+              image: true,
             },
           },
         },
@@ -47,5 +46,5 @@ export default async function handle(
     return;
   }
 
-  response.status(404).json({ message: 'Not found' });
+  response.status(404).json(null);
 }
