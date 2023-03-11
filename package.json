@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "private": true,
   "scripts": {
-    "predev": "prisma generate",
+    "predev": "rm -rf .next/ && prisma generate",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
