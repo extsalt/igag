@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Joi from 'joi';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { prisma } from '@/lib/prisma';
 import redis from '@/lib/redis';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 /**
  * Like the post
@@ -15,7 +15,7 @@ export default async function handle(request: NextApiRequest, response: NextApiR
   const session = await getServerSession(request, response, authOptions);
 
   if (!session) {
-    response.status(401).json(null);
+    response.status(401).json({ message: 'Unauthorized' });
     return;
   }
 
@@ -53,8 +53,8 @@ export default async function handle(request: NextApiRequest, response: NextApiR
     response.status(400).json({});
   }
 
-  const likeOnPost = await prisma.likesOnPost.findFirst({
-    where: { postId: postId, userId: user.id },
+  const likeOnPost = await prisma.usersInteractionOnPosts.findFirst({
+    where: { postId: postId, userId: user.id, like: true },
   });
 
   if (likeOnPost) {
@@ -63,7 +63,7 @@ export default async function handle(request: NextApiRequest, response: NextApiR
   }
 
   // @ts-ignore
-  await prisma.likesOnPost.create({
+  await prisma.usersInteractionOnPosts.create({
     data: { postId: postId, userId: user.id },
   });
 

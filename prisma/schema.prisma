@@ -8,22 +8,22 @@ datasource db {
 }
 
 model users {
-  id                  Int              @id @unique @default(autoincrement())
-  username            String?
-  email               String
-  password            String?
-  image               String?
-  identityProvider    String           @default("credential")
-  noOfPostsCreated    Int              @default(0)
-  noOfCommentsCreated Int              @default(0)
-  isActive            Boolean          @default(true)
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime?
-  deletedAt           DateTime?
-  posts               posts[]
-  comments            comments[]
-  likesOnPost         likesOnPost[]
-  likesOnComment      likesOnComment[]
+  id                     Int                          @id @unique @default(autoincrement())
+  username               String?
+  email                  String
+  password               String?
+  image                  String?
+  identityProvider       String                       @default("credential")
+  noOfPostsCreated       Int                          @default(0)
+  noOfCommentsCreated    Int                          @default(0)
+  isActive               Boolean                      @default(true)
+  createdAt              DateTime                     @default(now())
+  updatedAt              DateTime?
+  deletedAt              DateTime?
+  posts                  posts[]
+  comments               comments[]
+  interactionsOnPosts    usersInteractionOnPosts[]
+  interactionsOnComments usersInteractionOnComments[]
 
   @@index(id)
   @@index(username)
@@ -31,25 +31,25 @@ model users {
 }
 
 model posts {
-  id                Int           @id @unique @default(autoincrement())
-  user              users         @relation(fields: [userId], references: [id])
-  userId            Int
-  slug              String
-  title             String
-  imageUrl          String
-  likes             Int           @default(0)
-  dislikes          Int           @default(0)
-  impressionsCount  Int           @default(0)
-  postedAnonymously Boolean       @default(false)
-  isNSFW            Boolean       @default(false)
-  isReported        Boolean       @default(false)
-  commentsCount     Int           @default(0)
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime?
-  deletedAt         DateTime?
-  comments          comments[]
-  tags              tagsOnPost[]
-  likesOnPost       likesOnPost[]
+  id                  Int                       @id @unique @default(autoincrement())
+  user                users                     @relation(fields: [userId], references: [id])
+  userId              Int
+  slug                String
+  title               String
+  imageUrl            String
+  likes               Int                       @default(0)
+  dislikes            Int                       @default(0)
+  impressionsCount    Int                       @default(0)
+  postedAnonymously   Boolean                   @default(false)
+  isNSFW              Boolean                   @default(false)
+  isReported          Boolean                   @default(false)
+  commentsCount       Int                       @default(0)
+  createdAt           DateTime                  @default(now())
+  updatedAt           DateTime?
+  deletedAt           DateTime?
+  comments            comments[]
+  tags                tagsOnPost[]
+  interactionsOnPosts usersInteractionOnPosts[]
 
   @@index(id)
   @@index(userId)
@@ -59,19 +59,19 @@ model posts {
 }
 
 model comments {
-  id             Int              @id @unique @default(autoincrement())
-  userId         Int
-  postId         Int
-  body           String
-  imageUrl       String
-  likes          Int              @default(0)
-  dislikes       Int              @default(0)
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime?
-  deletedAt      DateTime?
-  user           users            @relation(fields: [userId], references: [id])
-  post           posts            @relation(fields: [postId], references: [id])
-  likesOnComment likesOnComment[]
+  id                     Int                          @id @unique @default(autoincrement())
+  userId                 Int
+  postId                 Int
+  body                   String
+  imageUrl               String
+  likes                  Int                          @default(0)
+  dislikes               Int                          @default(0)
+  createdAt              DateTime                     @default(now())
+  updatedAt              DateTime?
+  deletedAt              DateTime?
+  user                   users                        @relation(fields: [userId], references: [id])
+  post                   posts                        @relation(fields: [postId], references: [id])
+  interactionsOnComments usersInteractionOnComments[]
 
   @@index(id)
   @@index(userId)
@@ -104,7 +104,8 @@ model tagsOnPost {
   @@index(tagId)
 }
 
-model likesOnPost {
+model usersInteractionOnPosts {
+  like      Boolean  @default(true)
   postId    Int
   userId    Int
   post      posts    @relation(fields: [postId], references: [id])
@@ -116,7 +117,8 @@ model likesOnPost {
   @@index(userId)
 }
 
-model likesOnComment {
+model usersInteractionOnComments {
+  like      Boolean  @default(true)
   commentId Int
   userId    Int
   comment   comments @relation(fields: [commentId], references: [id])
