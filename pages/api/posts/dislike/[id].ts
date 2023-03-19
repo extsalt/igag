@@ -3,7 +3,10 @@ import auth from '@/lib/auth';
 import Joi from 'joi';
 import { prisma } from '@/lib/prisma';
 
-export default async function handle(request: NextApiRequest, response: NextApiResponse) {
+export default async function handle(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
   const user = await auth(request, response);
 
   if (!user) {
@@ -27,23 +30,56 @@ export default async function handle(request: NextApiRequest, response: NextApiR
     return;
   }
 
-  const userInteractionOnPost = await prisma.usersInteractionOnPosts.findFirst({
-    where: { postId: postId, userId: user.id, like: false },
-  });
+  let userInteractionOnPost = null;
 
-  if (userInteractionOnPost) {
-    response.status(400).json({ dislikes: post.dislikes });
+  try {
+    userInteractionOnPost =
+      await prisma.usersInteractionOnPosts.findFirstOrThrow({
+        where: { postId: postId, userId: user.id },
+      });
+  } catch (e: any) {
+    // @ts-ignore
+    await prisma.usersInteractionOnPosts.create({
+      data: { postId: postId, userId: user.id, like: false },
+    });
+
+    await prisma.posts.update({
+      where: { id: postId },
+      data: { dislikes: ++post.dislikes },
+    });
+
+    response.json({ dislikes: post.dislikes });
     return;
   }
 
-  // @ts-ignore
-  await prisma.usersInteractionOnPosts.create({
-    data: { postId: postId, userId: user.id, like: false },
-  });
+  // user has either liked or disliked this post
+  if (userInteractionOnPost.like) {
+    //user has liked this post
+    await prisma.usersInteractionOnPosts.deleteMany({
+      where: {
+        // @ts-ignore
+        postId: postId,
+        userId: user.id,
+      },
+    });
 
-  await prisma.posts.update({
-    where: { id: postId }, data: { dislikes: ++post.dislikes },
-  });
+    await prisma.usersInteractionOnPosts.create({
+      data: {
+        postId: postId,
+        userId: user.id,
+        like: false,
+      },
+    });
 
+    await prisma.posts.update({
+      data: {
+        dislikes: ++post.dislikes,
+        likes: --post.likes,
+      },
+      where: {
+        id: postId,
+      },
+    });
+  }
   response.json({ dislikes: post.dislikes });
 }

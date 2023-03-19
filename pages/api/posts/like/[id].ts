@@ -11,7 +11,10 @@ import { authOptions } from '@/pages/api/auth/[...nextauth]';
  * @param request
  * @param response
  */
-export default async function handle(request: NextApiRequest, response: NextApiResponse) {
+export default async function handle(
+  request: NextApiRequest,
+  response: NextApiResponse
+) {
   const session = await getServerSession(request, response, authOptions);
 
   if (!session) {
@@ -53,23 +56,55 @@ export default async function handle(request: NextApiRequest, response: NextApiR
     response.status(400).json({});
   }
 
-  const likeOnPost = await prisma.usersInteractionOnPosts.findFirst({
-    where: { postId: postId, userId: user.id, like: true },
-  });
+  let userInteractionOnPost = null;
 
-  if (likeOnPost) {
+  try {
+    userInteractionOnPost =
+      await prisma.usersInteractionOnPosts.findFirstOrThrow({
+        where: { postId: postId, userId: user.id },
+      });
+  } catch (e: any) {
+    // @ts-ignore
+    await prisma.usersInteractionOnPosts.create({
+      data: { postId: postId, userId: user.id },
+    });
+
+    await prisma.posts.update({
+      where: { id: postId },
+      data: { likes: ++post.likes },
+    });
+
     response.json({ likes: post.likes });
     return;
   }
 
-  // @ts-ignore
-  await prisma.usersInteractionOnPosts.create({
-    data: { postId: postId, userId: user.id },
-  });
+  // user has either liked or disliked this post
+  if (!userInteractionOnPost.like) {
+    //user has dislikes this post
+    await prisma.usersInteractionOnPosts.deleteMany({
+      where: {
+        // @ts-ignore
+        postId: postId,
+        userId: user.id,
+      },
+    });
 
-  await prisma.posts.update({
-    where: { id: postId }, data: { likes: ++post.likes },
-  });
+    await prisma.usersInteractionOnPosts.create({
+      data: {
+        postId: postId,
+        userId: user.id,
+      },
+    });
 
+    await prisma.posts.update({
+      data: {
+        dislikes: --post.dislikes,
+        likes: ++post.likes,
+      },
+      where: {
+        id: postId,
+      },
+    });
+  }
   response.json({ likes: post.likes });
 }
