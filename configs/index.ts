@@ -1,2 +1,2 @@
 const dev = process.env.NODE_ENV !== 'production';
-export const server = dev ? 'http://localhost:3000' : 'https://igag.vercel.app';
+export const server = dev ? 'http://localhost:8080' : 'https://igag.vercel.app';
