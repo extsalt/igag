@@ -1,8 +1,7 @@
 /**
- * Add hooks for anything related to posts
+ * Returns posts for given page number
+ * @param page
  */
-
-
-export default {
-
+export function usePost(page: number): [Array<any>, boolean] {
+	return [[], true];
 }
