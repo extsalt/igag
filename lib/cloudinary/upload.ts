@@ -6,4 +6,7 @@ export default async function upload(formData: any) {
       body: formData,
     },
   ).then((response) => response.json());
+  //
 }
+
+
