@@ -1,7 +1,9 @@
+import { Post } from '@/types';
+
 /**
  * Returns posts for given page number
  * @param page
  */
-export function usePost(page: number): [Array<any>, boolean] {
+export function usePost(page: number): [Array<Post>, boolean] {
 	return [[], true];
 }

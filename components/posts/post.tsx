@@ -1,4 +1,4 @@
-import EllipsisVertical from '../icons/ellipsis-vertical';
+import EllipsisVertical from '@/components/icons/ellipsis-vertical';
 import ArrowUp from '@/components/icons/ArrowUp';
 import ArrowDown from '@/components/icons/ArrowDown';
 import ChatBubble from '@/components/icons/ChatBubble';
@@ -8,7 +8,7 @@ import { useState } from 'react';
 const dayjs = require('dayjs');
 const relativeTime = require('dayjs/plugin/relativeTime');
 
-export default function Post({ post }: any) {
+export default function PostComponent({ post }: any) {
   const [likes, setLikes] = useState(post.likes);
   const [dislikes, setDislikes] = useState(post.dislikes);
 

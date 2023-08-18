@@ -1,14 +1,9 @@
 import React, { useState, useRef, useCallback } from 'react';
 
-import Post from '@/components/posts/post';
+import PostComponent from '@/components/posts/post';
 import Layout from '@/components/layouts/layout';
 import { usePost } from '@/lib/hooks/post';
-
-type Post = {
-	id: any;
-};
-
-type Posts = Post[];
+import { Post } from '@/types';
 
 export default function Home() {
 	const [query, setQuery] = useState('');
@@ -42,8 +37,8 @@ export default function Home() {
 		<>
 			<Layout>
 				<div className='post-container max-w-lg mx-auto'>
-					{posts.map((post: Post): any => (
-						<Post post={post} key={post.id} />
+					{posts.map((post:  Post): any => (
+						<PostComponent post={post} key={post.id} />
 					))}
 				</div>
 			</Layout>
