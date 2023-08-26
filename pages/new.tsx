@@ -20,7 +20,6 @@ export default function CreatePost() {
 		setFile(e.target.files[0]);
 	}
 	
-	
 	/**
 	 * Create post
 	 */
@@ -29,7 +28,6 @@ export default function CreatePost() {
 			alert('Choose file');
 			return;
 		}
-		
 		const signatureResponse: CloudinarySignature | PulsarErrorResponse = await getSignature();
 		if ('message' in signatureResponse) {
 			alert(signatureResponse.message);
@@ -41,7 +39,6 @@ export default function CreatePost() {
 		formData.append('signature', t.signature);
 		formData.append('timestamp', t.timestamp);
 		formData.append('api_key', t.apiKey);
-		//polyfill fetch
 		const response = await fetch(
 			'https://api.cloudinary.com/v1_1/sq48/image/upload',
 			{
@@ -49,7 +46,6 @@ export default function CreatePost() {
 				body: formData,
 			},
 		).then((response) => response.json());
-		
 		console.log(response);
 		if (response) {
 			const body = {
@@ -58,6 +54,7 @@ export default function CreatePost() {
 			};
 			await fetch(POST_STORE_URL, {
 				method: 'post',
+				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json',
 				},
